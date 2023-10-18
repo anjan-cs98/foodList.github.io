@@ -1,0 +1,29 @@
+<div class="container-fluid">
+       <header class="jumbotron">
+              <h1 align="center">|Foods |</h1>
+       </header>
+
+       <main>
+              <div class="container-fluid">
+                     <!-- values : {{SearchedFood}} -->
+                     <section class="form-group">
+                            <input type="text"  [(ngModel)]="SearchedFood" class="form-control " placeholder="Searched foods ......">
+                     </section> 
+              <div class="row">
+                     
+             
+                     <div class="card"   style="width: 18rem; margin-left: 50px;"  *ngFor="let f of foodList |foodFilter:SearchedFood | paginate: { itemsPerPage: 4, currentPage: page }">
+                            <img  height="200px" width="50px" class="card-img-top" src="{{f.food_image}}" alt="{{f.food_name}}">
+                            <div class="card-body">
+                              <h5 class="card-title">{{f.food_name}}</h5>
+                              <p class="card-text">{{f.food_desc}}</p>
+                              <a href="#" class="btn btn-primary">{{f.food_price|currency:'INR'}}</a>
+                            </div>
+
+                     </div>
+                     
+              </div>   
+              <pagination-controls (pageChange)="page = $event"></pagination-controls>
+              </div>
+       </main>
+</div>

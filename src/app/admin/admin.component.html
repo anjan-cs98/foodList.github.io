@@ -1,0 +1,122 @@
+<div class="container-fluid">
+  <header class="jumbotron">
+    <h1 align="center">|Admin Dashbord|</h1>
+  </header>
+
+  <section class="alert alert-success float-right">
+    <h5>User :{{ activeUser }}</h5>
+    <button class="btn btn-outline-danger" id="btn" (click)="UserlogOut()">
+      LogOut
+    </button>
+  </section>
+  <main>
+    <div class="row">
+      <div class="col-lg-8 border-right">
+        <header class="modal-header">
+          <h2 align="center">|All Food List |</h2>
+        </header>
+
+        <table class="table table-hover-table-bordered">
+          <tr>
+            <th>#</th>
+            <th><strong>Food Name:</strong></th>
+            <th><strong>Desc:</strong></th>
+            <th><strong>Image:</strong></th>
+            <th><strong>Price:</strong></th>
+          </tr>
+          <tr
+            *ngFor="
+              let f of foodList
+                | paginate : { itemsPerPage: 5, currentPage: page }
+            "
+          >
+            <td>
+              <input type="radio" name="radio" (click)="select(f)" />
+            </td>
+            <td>{{ f.food_name }}</td>
+            <td>{{ f.food_desc }}</td>
+            <td>
+              <img
+                height="50px"
+                width="50px"
+                src="{{ f.food_image }}"
+                alt="{{ f.food_name }}"
+              />
+            </td>
+            <td>{{ f.food_price | currency : "INR" }}</td>
+          </tr>
+        </table>
+        <pagination-controls (pageChange)="page = $event"></pagination-controls>
+      </div>
+      <div class="col-lg-4">
+        <header class="modal-header">
+          <h2 align="center">|Food Operations|</h2>
+        </header>
+        <form [formGroup]="foodData">
+          <div class="form-group">
+            <label>Food Name:</label>
+            <input
+              type="text"
+              formControlName="food_name"
+              class="form-control"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Desc:</label>
+            <textarea
+              rows="13"
+              formControlName="food_desc"
+              col="20"
+              class="form-control"
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label> Price:</label>
+            <input
+              type="text"
+              formControlName="food_price"
+              class="form-control"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Image:</label>
+            <input
+              type="file"
+              (change)="selectImage($event)"
+              class="form-control"
+            />
+          </div>
+
+          <div class="form-group">
+            <section *ngIf="selectedFoodData == 0">
+              <button
+                class="btn btn-sm btn-outline-success"
+                (click)="AddFood()"
+              >
+                ADD
+              </button>
+            </section>
+
+            <section *ngIf="selectedFoodData != 0">
+              <button
+                class="btn btn-sm btn-outline-info"
+                (click)="UpadteFood()"
+              >
+                UPDATE</button
+              >|
+              <button
+                class="btn btn-sm btn-outline-danger"
+                (click)="DeleteFood()"
+              >
+                DELETE
+              </button>
+            </section>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>
